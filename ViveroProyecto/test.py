@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ViveroProyecto.models import Vivero
+from ViveroProyecto.models import Vivero, ProductoControlHongo
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
@@ -55,4 +55,31 @@ class ViveroTests(TestCase):
         except IntegrityError:
             pass  # La excepción esperada se ha lanzado
 
-    
+# Pruebas para el modelo ProductoControlHongo
+class ProductoControlHongoTests(TestCase):
+    def setUp(self):
+        self.producto_hongo = ProductoControlHongo.objects.create(
+            registro_ica='ICA456',
+            nombre_producto='Fungicida Y',
+            frecuencia_aplicacion=30,
+            valor=200.00,
+            periodo_carencia=10,
+            nombre_hongo='Mildiu'
+        )
+
+    def test_producto_control_hongo_creation(self):
+        """Funcional: Verifica que se pueda crear un ProductoControlHongo con datos válidos"""
+        producto = ProductoControlHongo.objects.get(registro_ica='ICA456')
+        self.assertEqual(producto.nombre_hongo, 'Mildiu')
+
+    def test_producto_control_hongo_str_method(self):
+        """Funcional: Verifica la representación en cadena del ProductoControlHongo"""
+        self.assertEqual(str(self.producto_hongo), 'Hongo Mildiu - Fungicida Y')
+
+    def test_producto_control_hongo_periodo_carencia(self):
+        """No funcional: Verifica que el periodo de carencia sea un valor entero"""
+        self.assertIsInstance(self.producto_hongo.periodo_carencia, int)
+
+    def test_producto_control_hongo_frecuencia_aplicacion(self):
+        """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
+        self.assertIsInstance(self.producto_hongo.frecuencia_aplicacion, int)
