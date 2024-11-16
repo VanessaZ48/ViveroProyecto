@@ -28,3 +28,11 @@ class ProductoControlHongo(ProductoControl):
 
     def __str__(self):
         return f'Hongo {self.nombre_hongo} - {self.nombre_producto}'
+
+# Modelo ProductoControlPlaga
+class ProductoControlPlaga(ProductoControl):
+   
+    periodo_carencia = models.IntegerField()  # Días
+
+    def __str__(self):
+        return f'Plaga - {self.nombre_producto}'

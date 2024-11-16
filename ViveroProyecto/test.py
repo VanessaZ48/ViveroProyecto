@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ViveroProyecto.models import Vivero, ProductoControlHongo
+from ViveroProyecto.models import Vivero, ProductoControlHongo,  ProductoControlPlaga
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
@@ -83,3 +83,31 @@ class ProductoControlHongoTests(TestCase):
     def test_producto_control_hongo_frecuencia_aplicacion(self):
         """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
         self.assertIsInstance(self.producto_hongo.frecuencia_aplicacion, int)
+
+# Pruebas para el modelo ProductoControlPlaga
+class ProductoControlPlagaTests(TestCase):
+    def setUp(self):
+        self.producto_plaga = ProductoControlPlaga.objects.create(
+            registro_ica='ICA789',
+            nombre_producto='Insecticida Z',
+            frecuencia_aplicacion=15,
+            valor=150.00,
+            periodo_carencia=5
+        )
+
+    def test_producto_control_plaga_creation(self):
+        """Funcional: Verifica que se pueda crear un ProductoControlPlaga con datos válidos"""
+        producto = ProductoControlPlaga.objects.get(registro_ica='ICA789')
+        self.assertEqual(producto.nombre_producto, 'Insecticida Z')
+
+    def test_producto_control_plaga_str_method(self):
+        """Funcional: Verifica la representación en cadena del ProductoControlPlaga"""
+        self.assertEqual(str(self.producto_plaga), 'Plaga - Insecticida Z')
+
+    def test_producto_control_plaga_periodo_carencia(self):
+        """No funcional: Verifica que el periodo de carencia sea un valor entero"""
+        self.assertIsInstance(self.producto_plaga.periodo_carencia, int)
+
+    def test_producto_control_plaga_frecuencia_aplicacion(self):
+        """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
+        self.assertIsInstance(self.producto_plaga.frecuencia_aplicacion, int)
