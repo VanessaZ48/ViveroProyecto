@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Productor, Finca, Vivero, ProductoControlHongo, ProductoControlPlaga
+from .models import Productor, Finca, Vivero, ProductoControlHongo, ProductoControlPlaga, ProductoControlFertilizante
 
 @admin.register(Vivero)
 class ViveroAdmin(admin.ModelAdmin):
@@ -15,3 +15,8 @@ class ProductoControlHongoAdmin(admin.ModelAdmin):
 @admin.register(ProductoControlPlaga)
 class ProductoControlPlagaAdmin(admin.ModelAdmin):
     list_display = ('registro_ica', 'nombre_producto', 'frecuencia_aplicacion', 'valor', 'periodo_carencia')
+
+
+@admin.register(ProductoControlFertilizante)
+class ProductoControlFertilizanteAdmin(admin.ModelAdmin):
+    list_display = ('registro_ica', 'nombre_producto', 'frecuencia_aplicacion', 'valor', 'fecha_ultima_aplicacion')
