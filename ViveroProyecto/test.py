@@ -139,5 +139,67 @@ class ProductoControlFertilizanteTests(TestCase):
     def test_producto_control_fertilizante_frecuencia_aplicacion(self):
         """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
         self.assertIsInstance(self.producto_fertilizante.frecuencia_aplicacion, int)
+
+"""PRUEBAS DE RELACIONES ENTRE LAS ENTIDADES (MODELOS)"""
+
+class RelationshipTests(TestCase):
+    def setUp(self):
+        # Configuramos los datos necesarios para las pruebas
+        self.productor = Productor.objects.create(
+            documento_identidad='123456789',
+            nombre='Juan',
+            apellido='Pérez',
+            telefono='5551234',
+            correo='juan@example.com'
+        )
+        self.finca = Finca.objects.create(
+            productor=self.productor,
+            numero_catastro='FNC001',
+            municipio='Bogotá'
+        )
+        self.vivero = Vivero.objects.create(
+            finca=self.finca,
+            codigo='VIV001',
+            tipo_cultivo='Maíz'
+        )
+        self.producto_hongo = ProductoControlHongo.objects.create(
+            registro_ica='ICA123',
+            nombre_producto='Fungicida X',
+            frecuencia_aplicacion=15,
+            valor=100.00,
+            periodo_carencia=7,
+            nombre_hongo='Oídio'
+        )
+        self.labor = Labor.objects.create(
+            vivero=self.vivero,
+            fecha='2024-09-15',
+            descripcion='Aplicación de fungicida'
+        )
+        self.labor.productos_control_hongo.add(self.producto_hongo)
+
+    def test_productor_finca_relationship(self):
+        """Verifica que una Finca está correctamente asociada a un Productor"""
+        finca = Finca.objects.get(numero_catastro='FNC001')
+        self.assertEqual(finca.productor, self.productor)
+
+    def test_finca_vivero_relationship(self):
+        """Verifica que un Vivero está correctamente asociado a una Finca"""
+        vivero = Vivero.objects.get(codigo='VIV001')
+        self.assertEqual(vivero.finca, self.finca)
+
+    def test_labor_vivero_relationship(self):
+        """Verifica que una Labor está correctamente asociada a un Vivero"""
+        labor = Labor.objects.get(descripcion='Aplicación de fungicida')
+        self.assertEqual(labor.vivero, self.vivero)
+
+    def test_labor_productos_control_hongo_relationship(self):
+        """Verifica que una Labor puede tener Productos de Control Hongo asociados"""
+        labor = Labor.objects.get(descripcion='Aplicación de fungicida')
+        self.assertIn(self.producto_hongo, labor.productos_control_hongo.all())
+
+    def test_vivero_str_method(self):
+        """Verifica la representación en cadena del Vivero"""
+        self.assertEqual(str(self.vivero), 'Vivero VIV001 - Maíz')
+
         
 
