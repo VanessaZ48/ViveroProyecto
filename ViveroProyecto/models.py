@@ -11,7 +11,6 @@ class Vivero(models.Model):
     
 # Clase abstracta ProductoControl
 class ProductoControl(models.Model):
-    
     registro_ica = models.CharField(max_length=50)
     nombre_producto = models.CharField(max_length=100)
     frecuencia_aplicacion = models.IntegerField()  # Cada X días
@@ -22,7 +21,6 @@ class ProductoControl(models.Model):
 
 # Modelo ProductoControlHongo
 class ProductoControlHongo(ProductoControl):
-    
     periodo_carencia = models.IntegerField()  # Días
     nombre_hongo = models.CharField(max_length=100)
 
@@ -31,7 +29,6 @@ class ProductoControlHongo(ProductoControl):
 
 # Modelo ProductoControlPlaga
 class ProductoControlPlaga(ProductoControl):
-   
     periodo_carencia = models.IntegerField()  # Días
 
     def __str__(self):
@@ -40,8 +37,22 @@ class ProductoControlPlaga(ProductoControl):
 
 # Modelo ProductoControlFertilizante
 class ProductoControlFertilizante(ProductoControl):
-    
     fecha_ultima_aplicacion = models.DateField()
 
     def __str__(self):
         return f'Fertilizante - {self.nombre_producto}'
+    
+# Modelo Labor
+class Labor(models.Model):
+    vivero = models.ForeignKey(Vivero, on_delete=models.CASCADE, related_name='labores')
+    fecha = models.DateField()
+    descripcion = models.TextField()
+
+    # Relacionamos Labor con los productos que puede utilizar
+    productos_control_hongo = models.ManyToManyField(ProductoControlHongo)
+    productos_control_plaga = models.ManyToManyField(ProductoControlPlaga)
+    productos_control_fertilizante = models.ManyToManyField(ProductoControlFertilizante)
+
+    def __str__(self):
+        return f'Labor {self.descripcion} en {self.fecha}'
+
