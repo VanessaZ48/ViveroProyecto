@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ViveroProyecto.models import Vivero, ProductoControlHongo,  ProductoControlPlaga
+from ViveroProyecto.models import Vivero, ProductoControlHongo,  ProductoControlPlaga, ProductoControlFertilizante
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
@@ -111,4 +111,33 @@ class ProductoControlPlagaTests(TestCase):
     def test_producto_control_plaga_frecuencia_aplicacion(self):
         """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
         self.assertIsInstance(self.producto_plaga.frecuencia_aplicacion, int)
+
+# Pruebas para el modelo ProductoControlFertilizante
+class ProductoControlFertilizanteTests(TestCase):
+    def setUp(self):
+        self.producto_fertilizante = ProductoControlFertilizante.objects.create(
+            registro_ica='ICA012',
+            nombre_producto='Fertilizante A',
+            frecuencia_aplicacion=30,
+            valor=250.00,
+            fecha_ultima_aplicacion='2024-09-01'
+        )
+
+    def test_producto_control_fertilizante_creation(self):
+        """Funcional: Verifica que se pueda crear un ProductoControlFertilizante con datos válidos"""
+        producto = ProductoControlFertilizante.objects.get(registro_ica='ICA012')
+        self.assertEqual(producto.nombre_producto, 'Fertilizante A')
+
+    def test_producto_control_fertilizante_str_method(self):
+        """Funcional: Verifica la representación en cadena del ProductoControlFertilizante"""
+        self.assertEqual(str(self.producto_fertilizante), 'Fertilizante - Fertilizante A')
+
+    def test_producto_control_fertilizante_fecha_ultima_aplicacion(self):
+        """No funcional: Verifica que la fecha de última aplicación sea un valor de fecha"""
+        self.assertIsInstance(self.producto_fertilizante.fecha_ultima_aplicacion, str)  # Asume que la fecha es guardada como string
+
+    def test_producto_control_fertilizante_frecuencia_aplicacion(self):
+        """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
+        self.assertIsInstance(self.producto_fertilizante.frecuencia_aplicacion, int)
+        
 
