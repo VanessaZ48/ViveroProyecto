@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Productor, Finca, Vivero, ProductoControlHongo, ProductoControlPlaga, ProductoControlFertilizante
+from .models import Productor, Finca, Vivero, ProductoControlHongo, ProductoControlPlaga, ProductoControlFertilizante, Labor
 
 @admin.register(Vivero)
 class ViveroAdmin(admin.ModelAdmin):
