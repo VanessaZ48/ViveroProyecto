@@ -111,3 +111,4 @@ class ProductoControlPlagaTests(TestCase):
     def test_producto_control_plaga_frecuencia_aplicacion(self):
         """No funcional: Verifica que la frecuencia de aplicación sea un valor entero"""
         self.assertIsInstance(self.producto_plaga.frecuencia_aplicacion, int)
+
