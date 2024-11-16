@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ViveroProyecto.models import Vivero, ProductoControlHongo,  ProductoControlPlaga, ProductoControlFertilizante
+from ViveroProyecto.models import Vivero, ProductoControlHongo,  ProductoControlPlaga, ProductoControlFertilizante, Labor
 from django.core.exceptions import ValidationError
 from datetime import datetime
 
