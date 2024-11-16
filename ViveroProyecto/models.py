@@ -36,3 +36,12 @@ class ProductoControlPlaga(ProductoControl):
 
     def __str__(self):
         return f'Plaga - {self.nombre_producto}'
+
+
+# Modelo ProductoControlFertilizante
+class ProductoControlFertilizante(ProductoControl):
+    
+    fecha_ultima_aplicacion = models.DateField()
+
+    def __str__(self):
+        return f'Fertilizante - {self.nombre_producto}'
